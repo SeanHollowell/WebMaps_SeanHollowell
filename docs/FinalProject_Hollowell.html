@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Social Vulnerability and Hazard</title>
+<style>
+    html, body, #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/css/main.css">
+<script src="https://js.arcgis.com/4.17/"></script>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/VectorTileLayer",
+            "esri/layers/FeatureLayer",
+            "esri/renderers/SimpleRenderer",
+            "esri/symbols/SimpleFillSymbol",
+            "dojo/domReady!"
+        ], function(Map, MapView, VectorTileLayer, FeatureLayer, SimpleRenderer, SimpleFillSymbol)
+               {
+            
+            var myMap = new Map();
+            
+            var myView = new MapView({
+                container: "viewDiv",
+                map: myMap,
+                center: [-96.6, 39.8],
+                scale: 18500000,
+            });
+            
+            var myBasemap = new VectorTileLayer({
+                url: "https://arts-sciences.maps.arcgis.com/sharing/rest/content/items/b01bc1535f4640e697ff2a029396f6c6/resources/styles/root.json?f=pjson"
+            });
+            myMap.add(myBasemap);
+            
+            var SOVI = new FeatureLayer({
+                portalItem:{
+                    id: "2bfab3a7fae64a0a985213527a970731"
+                }
+            });
+            myMap.add(SOVI);
+            
+            var stSym = new SimpleFillSymbol({
+                style: "none",
+                outline: {
+                    style: "solid",
+                    color: "black",
+                    width: 1,
+                }
+            });
+        
+            var stRenderer = new SimpleRenderer({
+                symbol: stSym
+            });
+        
+            var states = new FeatureLayer({
+                url: "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/12",
+                renderer: stRenderer,
+                opacity: 0.5,
+                minScale: 20000000,
+                maxScale: 0,
+            });
+            myMap.add(states);
+            
+            /*var WUI = new FeatureLayer({
+                url: "https://wildfire.cr.usgs.gov/arcgis/rest/services/firehistory/MapServer/7"
+            });
+            myMap.add(WUI); */
+            
+            var fireRenderer = new SimpleRenderer({
+                symbol: {
+                    type: "simple-marker",
+                    size: 6,
+                    color: "yellow",
+                    outline: {
+                        width: 0.5,
+                        color: "black"
+                    }
+                }
+            });
+            
+            var FSfires = new FeatureLayer({
+                url: "https://wildfire.cr.usgs.gov/arcgis/rest/services/firehistory/MapServer/3",
+                minScale: 20000000,
+                definitionExpression: "sizeclassn = 7",
+                renderer: fireRenderer,
+            });
+            myMap.add(FSfires);
+            
+        });
+    
+    </script>
+</head>
+<body>
+ 
+<div id = "viewDiv"> </div>
+
+</body>
+</html>
