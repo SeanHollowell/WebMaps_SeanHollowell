@@ -407,7 +407,7 @@
                     var extent = myView.extent;
 
                     var bottomLeft = smallview.toScreen(new Point ({
-                        x: extent.xmin,
+                        x: extent.xmin + 1,
                         y: extent.ymin,
                         spatialReference: extent.spatialReference})
                     );
