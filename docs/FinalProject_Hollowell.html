@@ -68,6 +68,8 @@
         height: 100%;
         width: 42%;
     }
+    
+    /*
     #extentDiv{
         border: 2px solid red;
         position: absolute;
@@ -82,6 +84,7 @@
         border: 1px solid black;
         z-index: 1;
     }
+    */
     
 </style>
 <link rel="stylesheet" href="https://js.arcgis.com/4.17/esri/css/main.css">
@@ -362,6 +365,7 @@
             }
         });
             
+            /*
         //create another map for using in the overview
             var overviewmap = new Map ({
                 basemap: "topo"
@@ -407,7 +411,7 @@
                     var extent = myView.extent;
 
                     var bottomLeft = smallview.toScreen(new Point ({
-                        x: extent.xmin + 1,
+                        x: extent.xmin,
                         y: extent.ymin,
                         spatialReference: extent.spatialReference})
                     );
@@ -423,7 +427,7 @@
                     ExtentDiv.style.height = (bottomLeft.y - topRight.y) + "px";
                     ExtentDiv.style.width = (topRight.x - bottomLeft.x) + "px";
                 }
-            });
+            }); */
         
         });
     
@@ -437,9 +441,11 @@
 <div id = "legendDiv"></div>
 <div id = "viewDiv"></div>
 <div id = "viewDiv2"></div>
-<div id = "overviewDiv">
+<!--
+    <div id = "overviewDiv">
     <div id = "extentDiv"></div>
 </div>
+-->
 
 
 </body>
